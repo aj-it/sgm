@@ -6,12 +6,7 @@ var MovieGrid = React.createClass({
   render: function()  {
     return (
         <div className="MovieGrid">
-          <MovieRow />
-          <MovieRow />
-          <MovieRow />
-          <MovieRow />
-          <MovieRow />
-          <MovieRow />
+          <MovieRow />          
         </div>
     );
   }
