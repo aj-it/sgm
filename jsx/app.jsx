@@ -1,6 +1,8 @@
 var React = require('react');
 
+var MovieGrid = require('./MovieGrid.jsx');
+
 React.render(
-  <h1>Hello, world!</h1>,
+  <MovieGrid />,
   document.getElementById('app')
 );

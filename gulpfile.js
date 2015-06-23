@@ -4,6 +4,7 @@ var browserify = require('browserify');
 var babelify = require('babelify');
 var source = require('vinyl-source-stream');
 var sass = require('gulp-sass');
+var react = require('react');
 
 const reload = browserSync.reload;
 
@@ -13,7 +14,7 @@ gulp.task('browserify', function() {
     .bundle()
     .on("error", function (err) { console.log("Error : " + err.message); })
     .pipe(source('./web/bundle.js'))
-    .pipe(gulp.dest('./web'));
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('sass', function() {
@@ -35,10 +36,8 @@ gulp.task('serve', function() {
 gulp.watch(['./jsx/*.jsx'], ['browserify']);
 gulp.watch(["./scss/*.scss"], ['sass']);
 
-gulp.watch(["./web/*.js", "./web/*.css", "./web/*.html"], function() {
+gulp.watch(["./web/bundle.js", "./web/main.css", "./web/index.html"], function() {
   reload();
 });
-
-//
 
 gulp.task('default', ['browserify', 'sass', 'serve']);
