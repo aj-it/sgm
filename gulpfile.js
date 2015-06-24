@@ -27,8 +27,8 @@ gulp.task('sass', function() {
 
 gulp.task('serve', function() {
   browserSync.init({
-    server: {
-      baseDir: "./web"
+    proxy: {
+      target: "http://sgm.local:8000/app_dev.php"
     }
   });
 });

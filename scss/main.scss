@@ -12,3 +12,7 @@ $thumb-box-shadow-hover: 0 0 6px 1px rgba($primary-color,0.5);
 // Radius and transition speed for thumbs
 $thumb-radius: $global-radius;
 $thumb-transition-speed: 200ms;
+
+ul li {
+  list-style-type: none;
+}
