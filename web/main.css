@@ -6282,5 +6282,9 @@ th.hide-for-touch {
   .show-for-print {
     display: none !important; } }
 
+.profile-banner {
+  text-align: center;
+  color: red; }
+
 ul li {
   list-style-type: none; }

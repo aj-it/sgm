@@ -1,8 +1,17 @@
+var Cookie = require('js-cookie');
 var React = require('react');
 
-var MovieGrid = require('./MovieGrid.jsx');
-
-React.render(
-  <MovieGrid />,
-  document.getElementById('app')
-);
+/*
+  Gestion des profils utilisateur -- Bootstrap de l'application
+*/
+var sgmCookie = Cookie.get('sgm');
+if (sgmCookie) {
+    // On récupère les profils utilisateur
+    console.log(sgmCookie);
+} else {
+  var ProfileForm = require('./components/profile/ProfileForm.jsx');
+  React.render(
+    <ProfileForm />,
+    document.getElementById('app')
+  );
+}

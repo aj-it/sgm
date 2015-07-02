@@ -18,7 +18,7 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('sass', function() {
-  gulp.src('./scss/*.scss')
+  gulp.src('./scss/**')
   .pipe(sass({
     includePaths: ['bower_components/foundation/scss']
   }))
@@ -28,13 +28,13 @@ gulp.task('sass', function() {
 gulp.task('serve', function() {
   browserSync.init({
     proxy: {
-      target: "http://sgm.local:8000/app_dev.php"
+      target: "http://127.0.0.1:8000/app_dev.php"
     }
   });
 });
 
-gulp.watch(['./jsx/*.jsx'], ['browserify']);
-gulp.watch(["./scss/*.scss"], ['sass']);
+gulp.watch(['./jsx/**'], ['browserify']);
+gulp.watch(["./scss/**"], ['sass']);
 
 gulp.watch(["./web/bundle.js", "./web/main.css", "./web/index.html"], function() {
   reload();
