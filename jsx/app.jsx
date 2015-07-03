@@ -8,6 +8,7 @@ var sgmCookie = Cookie.get('sgm');
 if (sgmCookie) {
     // On récupère les profils utilisateur
     console.log(sgmCookie);
+    Cookie.remove('sgm');
 } else {
   var ProfileForm = require('./components/profile/ProfileForm.jsx');
   React.render(

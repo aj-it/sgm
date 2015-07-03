@@ -4,11 +4,13 @@ var EventEmitter = require('events').EventEmitter;
 var ProfileConstants = require('../constants/ProfileConstants');
 var assign = require('object-assign');
 var $ = require('jquery');
+var Cookie = require('js-cookie');
 
 var CHANGE_EVENT  ='change';
 
 function create(text) {
   console.log('store', text);
+  Cookie.set('sgm', text);
   React.unmountComponentAtNode(document.getElementById('app'));
   var ProfileList = require('../components/profile/ProfileList.jsx');
   React.render(
