@@ -5,33 +5,34 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Genres
+ * Actor
  *
- * @ORM\Table(name="genres")
+ * @ORM\Table(name="actor")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="ActorRepository");
  */
-class Genres
+class Actor
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_genre", type="integer", nullable=false)
+     * @ORM\Column(name="id_actor", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idGenre;
+    private $idActor;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=45, nullable=false)
+     * @ORM\Column(name="name", type="string", length=200, nullable=false)
      */
     private $name;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Movies", mappedBy="idGenre")
+     * @ORM\ManyToMany(targetEntity="Movie", mappedBy="idActor")
      */
     private $idMovie;
 
@@ -45,20 +46,20 @@ class Genres
 
 
     /**
-     * Get idGenre
+     * Get idActor
      *
      * @return integer 
      */
-    public function getIdGenre()
+    public function getIdActor()
     {
-        return $this->idGenre;
+        return $this->idActor;
     }
 
     /**
      * Set name
      *
      * @param string $name
-     * @return Genres
+     * @return Actor
      */
     public function setName($name)
     {
@@ -80,10 +81,10 @@ class Genres
     /**
      * Add idMovie
      *
-     * @param \AppBundle\Entity\Movies $idMovie
-     * @return Genres
+     * @param \AppBundle\Entity\Movie $idMovie
+     * @return Actor
      */
-    public function addIdMovie(\AppBundle\Entity\Movies $idMovie)
+    public function addIdMovie(\AppBundle\Entity\Movie $idMovie)
     {
         $this->idMovie[] = $idMovie;
 
@@ -93,9 +94,9 @@ class Genres
     /**
      * Remove idMovie
      *
-     * @param \AppBundle\Entity\Movies $idMovie
+     * @param \AppBundle\Entity\Movie $idMovie
      */
-    public function removeIdMovie(\AppBundle\Entity\Movies $idMovie)
+    public function removeIdMovie(\AppBundle\Entity\Movie $idMovie)
     {
         $this->idMovie->removeElement($idMovie);
     }

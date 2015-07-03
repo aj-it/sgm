@@ -5,22 +5,22 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Actors
+ * Director
  *
- * @ORM\Table(name="actors")
+ * @ORM\Table(name="director")
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="ActorRepository");
+ * @ORM\Entity(repositoryClass="DirectorRepository");
  */
-class Actors
+class Director
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_actor", type="integer", nullable=false)
+     * @ORM\Column(name="id_director", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $idActor;
+    private $idDirector;
 
     /**
      * @var string
@@ -32,7 +32,7 @@ class Actors
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Movies", mappedBy="idActor")
+     * @ORM\ManyToMany(targetEntity="Movie", mappedBy="idDirector")
      */
     private $idMovie;
 
@@ -46,20 +46,20 @@ class Actors
 
 
     /**
-     * Get idActor
+     * Get idDirector
      *
      * @return integer 
      */
-    public function getIdActor()
+    public function getIdDirector()
     {
-        return $this->idActor;
+        return $this->idDirector;
     }
 
     /**
      * Set name
      *
      * @param string $name
-     * @return Actors
+     * @return Director
      */
     public function setName($name)
     {
@@ -81,10 +81,10 @@ class Actors
     /**
      * Add idMovie
      *
-     * @param \AppBundle\Entity\Movies $idMovie
-     * @return Actors
+     * @param \AppBundle\Entity\Movie $idMovie
+     * @return Director
      */
-    public function addIdMovie(\AppBundle\Entity\Movies $idMovie)
+    public function addIdMovie(\AppBundle\Entity\Movie $idMovie)
     {
         $this->idMovie[] = $idMovie;
 
@@ -94,9 +94,9 @@ class Actors
     /**
      * Remove idMovie
      *
-     * @param \AppBundle\Entity\Movies $idMovie
+     * @param \AppBundle\Entity\Movie $idMovie
      */
-    public function removeIdMovie(\AppBundle\Entity\Movies $idMovie)
+    public function removeIdMovie(\AppBundle\Entity\Movie $idMovie)
     {
         $this->idMovie->removeElement($idMovie);
     }

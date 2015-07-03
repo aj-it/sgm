@@ -13,7 +13,7 @@ class MovieController extends Controller {
      */
     public function listAction() {
         $movies = $this->getDoctrine()
-                ->getRepository('AppBundle:Movies')
+                ->getRepository('AppBundle:Movie')
                 ->listAll();
         $data = array();
         foreach ($movies as $movie) {

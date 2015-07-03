@@ -5,12 +5,13 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Genres
+ * Genre
  *
- * @ORM\Table(name="genres")
+ * @ORM\Table(name="genre")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="GenreRepository");
  */
-class Genres
+class Genre
 {
     /**
      * @var integer
@@ -31,7 +32,7 @@ class Genres
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Movies", mappedBy="idGenre")
+     * @ORM\ManyToMany(targetEntity="Movie", mappedBy="idGenre")
      */
     private $idMovie;
 
@@ -58,7 +59,7 @@ class Genres
      * Set name
      *
      * @param string $name
-     * @return Genres
+     * @return Genre
      */
     public function setName($name)
     {
@@ -80,10 +81,10 @@ class Genres
     /**
      * Add idMovie
      *
-     * @param \AppBundle\Entity\Movies $idMovie
-     * @return Genres
+     * @param \AppBundle\Entity\Movie $idMovie
+     * @return Genre
      */
-    public function addIdMovie(\AppBundle\Entity\Movies $idMovie)
+    public function addIdMovie(\AppBundle\Entity\Movie $idMovie)
     {
         $this->idMovie[] = $idMovie;
 
@@ -93,9 +94,9 @@ class Genres
     /**
      * Remove idMovie
      *
-     * @param \AppBundle\Entity\Movies $idMovie
+     * @param \AppBundle\Entity\Movie $idMovie
      */
-    public function removeIdMovie(\AppBundle\Entity\Movies $idMovie)
+    public function removeIdMovie(\AppBundle\Entity\Movie $idMovie)
     {
         $this->idMovie->removeElement($idMovie);
     }

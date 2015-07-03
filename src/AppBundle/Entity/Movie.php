@@ -5,13 +5,13 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Movies
+ * Movie
  *
- * @ORM\Table(name="movies")
+ * @ORM\Table(name="movie", indexes={@ORM\Index(name="fk_movies_imdb1_idx", columns={"imdb_id"})})
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="MovieRepository");
  */
-class Movies
+class Movie
 {
     /**
      * @var integer
@@ -67,22 +67,25 @@ class Movies
     /**
      * @var string
      *
-     * @ORM\Column(name="imdb_id", type="string", length=45, nullable=false)
-     */
-    private $imdbId;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="imdb_poster", type="string", length=250, nullable=true)
      */
     private $imdbPoster;
 
     /**
+     * @var \Imdb
+     *
+     * @ORM\ManyToOne(targetEntity="Imdb")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="imdb_id", referencedColumnName="id_imdb")
+     * })
+     */
+    private $imdb;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Actors", inversedBy="idMovie")
-     * @ORM\JoinTable(name="movies_actors",
+     * @ORM\ManyToMany(targetEntity="Actor", inversedBy="idMovie")
+     * @ORM\JoinTable(name="movie_actor",
      *   joinColumns={
      *     @ORM\JoinColumn(name="id_movie", referencedColumnName="id_movie")
      *   },
@@ -96,8 +99,8 @@ class Movies
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Directors", inversedBy="idMovie")
-     * @ORM\JoinTable(name="movies_directors",
+     * @ORM\ManyToMany(targetEntity="Director", inversedBy="idMovie")
+     * @ORM\JoinTable(name="movie_director",
      *   joinColumns={
      *     @ORM\JoinColumn(name="id_movie", referencedColumnName="id_movie")
      *   },
@@ -111,8 +114,8 @@ class Movies
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Genres", inversedBy="idMovie")
-     * @ORM\JoinTable(name="movies_genres",
+     * @ORM\ManyToMany(targetEntity="Genre", inversedBy="idMovie")
+     * @ORM\JoinTable(name="movie_genre",
      *   joinColumns={
      *     @ORM\JoinColumn(name="id_movie", referencedColumnName="id_movie")
      *   },
@@ -124,6 +127,13 @@ class Movies
     private $idGenre;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Profile", mappedBy="idMovie")
+     */
+    private $idProfile;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -131,13 +141,14 @@ class Movies
         $this->idActor = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idDirector = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idGenre = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->idProfile = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
     /**
      * Get idMovie
      *
-     * @return integer
+     * @return integer 
      */
     public function getIdMovie()
     {
@@ -148,7 +159,7 @@ class Movies
      * Set title
      *
      * @param string $title
-     * @return Movies
+     * @return Movie
      */
     public function setTitle($title)
     {
@@ -160,7 +171,7 @@ class Movies
     /**
      * Get title
      *
-     * @return string
+     * @return string 
      */
     public function getTitle()
     {
@@ -171,7 +182,7 @@ class Movies
      * Set originalTitle
      *
      * @param string $originalTitle
-     * @return Movies
+     * @return Movie
      */
     public function setOriginalTitle($originalTitle)
     {
@@ -183,7 +194,7 @@ class Movies
     /**
      * Get originalTitle
      *
-     * @return string
+     * @return string 
      */
     public function getOriginalTitle()
     {
@@ -194,7 +205,7 @@ class Movies
      * Set year
      *
      * @param integer $year
-     * @return Movies
+     * @return Movie
      */
     public function setYear($year)
     {
@@ -206,7 +217,7 @@ class Movies
     /**
      * Get year
      *
-     * @return integer
+     * @return integer 
      */
     public function getYear()
     {
@@ -217,7 +228,7 @@ class Movies
      * Set releaseDate
      *
      * @param string $releaseDate
-     * @return Movies
+     * @return Movie
      */
     public function setReleaseDate($releaseDate)
     {
@@ -229,7 +240,7 @@ class Movies
     /**
      * Get releaseDate
      *
-     * @return string
+     * @return string 
      */
     public function getReleaseDate()
     {
@@ -240,7 +251,7 @@ class Movies
      * Set duration
      *
      * @param integer $duration
-     * @return Movies
+     * @return Movie
      */
     public function setDuration($duration)
     {
@@ -252,7 +263,7 @@ class Movies
     /**
      * Get duration
      *
-     * @return integer
+     * @return integer 
      */
     public function getDuration()
     {
@@ -263,7 +274,7 @@ class Movies
      * Set imdbRating
      *
      * @param string $imdbRating
-     * @return Movies
+     * @return Movie
      */
     public function setImdbRating($imdbRating)
     {
@@ -275,7 +286,7 @@ class Movies
     /**
      * Get imdbRating
      *
-     * @return string
+     * @return string 
      */
     public function getImdbRating()
     {
@@ -283,33 +294,10 @@ class Movies
     }
 
     /**
-     * Set imdbId
-     *
-     * @param string $imdbId
-     * @return Movies
-     */
-    public function setImdbId($imdbId)
-    {
-        $this->imdbId = $imdbId;
-
-        return $this;
-    }
-
-    /**
-     * Get imdbId
-     *
-     * @return string
-     */
-    public function getImdbId()
-    {
-        return $this->imdbId;
-    }
-
-    /**
      * Set imdbPoster
      *
      * @param string $imdbPoster
-     * @return Movies
+     * @return Movie
      */
     public function setImdbPoster($imdbPoster)
     {
@@ -321,7 +309,7 @@ class Movies
     /**
      * Get imdbPoster
      *
-     * @return string
+     * @return string 
      */
     public function getImdbPoster()
     {
@@ -329,12 +317,35 @@ class Movies
     }
 
     /**
+     * Set imdb
+     *
+     * @param \AppBundle\Entity\Imdb $imdb
+     * @return Movie
+     */
+    public function setImdb(\AppBundle\Entity\Imdb $imdb = null)
+    {
+        $this->imdb = $imdb;
+
+        return $this;
+    }
+
+    /**
+     * Get imdb
+     *
+     * @return \AppBundle\Entity\Imdb 
+     */
+    public function getImdb()
+    {
+        return $this->imdb;
+    }
+
+    /**
      * Add idActor
      *
-     * @param \AppBundle\Entity\Actors $idActor
-     * @return Movies
+     * @param \AppBundle\Entity\Actor $idActor
+     * @return Movie
      */
-    public function addIdActor(\AppBundle\Entity\Actors $idActor)
+    public function addIdActor(\AppBundle\Entity\Actor $idActor)
     {
         $this->idActor[] = $idActor;
 
@@ -344,9 +355,9 @@ class Movies
     /**
      * Remove idActor
      *
-     * @param \AppBundle\Entity\Actors $idActor
+     * @param \AppBundle\Entity\Actor $idActor
      */
-    public function removeIdActor(\AppBundle\Entity\Actors $idActor)
+    public function removeIdActor(\AppBundle\Entity\Actor $idActor)
     {
         $this->idActor->removeElement($idActor);
     }
@@ -354,7 +365,7 @@ class Movies
     /**
      * Get idActor
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getIdActor()
     {
@@ -364,10 +375,10 @@ class Movies
     /**
      * Add idDirector
      *
-     * @param \AppBundle\Entity\Directors $idDirector
-     * @return Movies
+     * @param \AppBundle\Entity\Director $idDirector
+     * @return Movie
      */
-    public function addIdDirector(\AppBundle\Entity\Directors $idDirector)
+    public function addIdDirector(\AppBundle\Entity\Director $idDirector)
     {
         $this->idDirector[] = $idDirector;
 
@@ -377,9 +388,9 @@ class Movies
     /**
      * Remove idDirector
      *
-     * @param \AppBundle\Entity\Directors $idDirector
+     * @param \AppBundle\Entity\Director $idDirector
      */
-    public function removeIdDirector(\AppBundle\Entity\Directors $idDirector)
+    public function removeIdDirector(\AppBundle\Entity\Director $idDirector)
     {
         $this->idDirector->removeElement($idDirector);
     }
@@ -387,7 +398,7 @@ class Movies
     /**
      * Get idDirector
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getIdDirector()
     {
@@ -397,10 +408,10 @@ class Movies
     /**
      * Add idGenre
      *
-     * @param \AppBundle\Entity\Genres $idGenre
-     * @return Movies
+     * @param \AppBundle\Entity\Genre $idGenre
+     * @return Movie
      */
-    public function addIdGenre(\AppBundle\Entity\Genres $idGenre)
+    public function addIdGenre(\AppBundle\Entity\Genre $idGenre)
     {
         $this->idGenre[] = $idGenre;
 
@@ -410,9 +421,9 @@ class Movies
     /**
      * Remove idGenre
      *
-     * @param \AppBundle\Entity\Genres $idGenre
+     * @param \AppBundle\Entity\Genre $idGenre
      */
-    public function removeIdGenre(\AppBundle\Entity\Genres $idGenre)
+    public function removeIdGenre(\AppBundle\Entity\Genre $idGenre)
     {
         $this->idGenre->removeElement($idGenre);
     }
@@ -420,10 +431,43 @@ class Movies
     /**
      * Get idGenre
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getIdGenre()
     {
         return $this->idGenre;
+    }
+
+    /**
+     * Add idProfile
+     *
+     * @param \AppBundle\Entity\Profile $idProfile
+     * @return Movie
+     */
+    public function addIdProfile(\AppBundle\Entity\Profile $idProfile)
+    {
+        $this->idProfile[] = $idProfile;
+
+        return $this;
+    }
+
+    /**
+     * Remove idProfile
+     *
+     * @param \AppBundle\Entity\Profile $idProfile
+     */
+    public function removeIdProfile(\AppBundle\Entity\Profile $idProfile)
+    {
+        $this->idProfile->removeElement($idProfile);
+    }
+
+    /**
+     * Get idProfile
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getIdProfile()
+    {
+        return $this->idProfile;
     }
 }

@@ -16,11 +16,11 @@ class MovieRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQuery(
                         'SELECT m '
-                        . ' FROM AppBundle:Movies m '
+                        . ' FROM AppBundle:Movie m '
                         . ' WHERE m.imdbPoster != :imdbPoster '
                         . ' ORDER BY m.year DESC '
                 )->setParameter('imdbPoster', '')
-                ->setFirstResult(rand(0,100))
+                ->setFirstResult(rand(0, 100))
                 ->setMaxResults(6);
         $movies = $query->getResult();
         return $movies;
