@@ -1,17 +1,9 @@
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
-var ENTER_KEY_CODE = 13;
 var ProfileActions = require('../../actions/ProfileActions');
 var ProfileStore = require('../../stores/ProfileStore');
+var ENTER_KEY_CODE = 13;
 
 var ProfileForm = React.createClass({
-
-  propTypes: {
-    className: ReactPropTypes.string,
-    id: ReactPropTypes.string,
-    placeholder: ReactPropTypes.string,
-    value: ReactPropTypes.string
-  },
 
   getInitialState: function() {
     return {
@@ -27,15 +19,39 @@ var ProfileForm = React.createClass({
     ProfileStore.removeChangeListener(this._onChange);
   },
 
+  render: function() {
+    return (
+      <div className="ProfilForm">
+        <h1 className="profile-banner">Création d'un nouveau profil</h1>
+        <div>
+          <div className="row">
+            <div className="large-12 columns">
+              <div className="row collapse">
+                <div className="small-10 columns">
+                  <input autoFocus={true} onChange={this._onChange} onKeyDown={this._onKeyDown} placeholder="Votre nom de profil" ref="username" type="text" value={this.state.value}/>
+                </div>
+                <div className="small-2 columns">
+                  <a className="button postfix" href="#" onClick={this._onClick}>Valider</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  },
   _save: function(text) {
     console.log('Enregistrement du profil', text);
-    if (text.trim()){
+    if (text.trim()) {
       ProfileActions.create(text);
     }
   },
 
   _onClick: function(event) {
-    console.log('click sur le bouton', event);
+    var value = this.refs.username.getDOMNode().value;
+    if (value != '') {
+      this._save(value);
+    }
   },
 
   _onKeyDown: function(event) {
@@ -52,36 +68,6 @@ var ProfileForm = React.createClass({
     this.setState({
       value: value
     });
-  },
-
-  render: function() {
-    return (
-      <div className="ProfilForm">
-        <h1 className="profile-banner">Création d'un nouveau profil</h1>
-        <form>
-          <div className="row">
-            <div className="large-12 columns">
-              <div className="row collapse">
-                <div className="small-10 columns">
-                  <input type="text"
-                    onKeyDown={this._onKeyDown}
-                    onChange={this._onChange}
-                    value={this.state.value}
-                    autoFocus={true}
-                    placeholder="Votre nom de profil" />
-                </div>
-                <div className="small-2 columns">
-                  <a href="#"
-                    className="button postfix"
-                    onClick={this._onClick}
-                    >Valider</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    );
   }
 });
 

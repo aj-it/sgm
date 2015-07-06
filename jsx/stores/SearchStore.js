@@ -1,25 +1,21 @@
 var React = require('react');
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
-var ProfileConstants = require('../constants/ProfileConstants');
+var SearchConstants = require('../constants/SearchConstants');
+var MovieStore = require('./MovieStore');
 var assign = require('object-assign');
 var $ = require('jquery');
-var Cookie = require('js-cookie');
 
 var CHANGE_EVENT  ='change';
 
-function create(text) {
-  console.log('store', text);
+function search(value) {
   $.ajax({
-    type: "POST",
-    url: '/api/profile/save',
+    type: "GET",
+    url: '/api/movie/search',
     dataType: 'json',
-    data: {username: text},
+    data: {value: value},
     success: function (data, textStatus, jqXHR) {
-      Cookie.set('sgm', data.idProfile);
-      React.unmountComponentAtNode(document.getElementById('app'));
-      var MovieGrid = require('../components/movie/MovieGrid.jsx');
-      React.render(<MovieGrid/>, document.getElementById('app'));
+      MovieStore.emitChange(data);
     },
     error: function (data, textStatus, jqXHR) {
       console.log(data, textStatus, jqXHR)
@@ -28,29 +24,26 @@ function create(text) {
 }
 
 
-var ProfileStore = assign({}, EventEmitter.prototype, {
+var SearchStore = assign({}, EventEmitter.prototype, {
   emitChange: function() {
-    console.log("emitChange")
     this.emit(CHANGE_EVENT);
   },
   addChangeListener: function(callback) {
-    console.log("addChangeListener")
     this.on(CHANGE_EVENT, callback);
   },
   removeChangeListener: function(callback) {
-    console.log("removeChangeListener")
     this.removeListener(CHANGE_EVENT, callback);
   }
 });
 
 AppDispatcher.register(function(action) {
-  var text;
-
+  var value;
+console.log(action.actionType);
   switch(action.actionType) {
-    case ProfileConstants.PROFILE_CREATE:
-      text = action.text.trim();
-      if (text !== '') {
-        create(text);
+    case SearchConstants.SEARCH_CLICK:
+      value = action.value.trim();
+      if (value !== '') {
+        search(value);
       }
       break;
 
@@ -59,4 +52,4 @@ AppDispatcher.register(function(action) {
   }
 });
 
-module.exports = ProfileStore;
+module.exports = SearchStore;

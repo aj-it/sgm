@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Preference" table="preference">
+    <indexes>
+      <index name="fk_profile_has_movie_movie1_idx" columns="id_movie"/>
+      <index name="fk_profile_has_movie_profile1_idx" columns="id_profile"/>
+    </indexes>
+    <id name="idPreference" type="integer" column="id_preference">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="liked" type="boolean" column="liked" nullable="false"/>
+    <field name="createdAt" type="datetime" column="created_at" nullable="true"/>
+    <field name="updatedAt" type="datetime" column="updated_at" nullable="true"/>
+    <many-to-one field="idProfile" target-entity="Profile">
+      <join-columns>
+        <join-column name="id_profile" referenced-column-name="id_profile"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="idMovie" target-entity="Movie">
+      <join-columns>
+        <join-column name="id_movie" referenced-column-name="id_movie"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

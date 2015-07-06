@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="movie", indexes={@ORM\Index(name="fk_movies_imdb1_idx", columns={"imdb_id"})})
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="MovieRepository");
+ * @ORM\Entity(repositoryClass="MovieRepository")
  */
 class Movie
 {
@@ -127,13 +127,6 @@ class Movie
     private $idGenre;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Profile", mappedBy="idMovie")
-     */
-    private $idProfile;
-
-    /**
      * Constructor
      */
     public function __construct()
@@ -141,14 +134,13 @@ class Movie
         $this->idActor = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idDirector = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idGenre = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idProfile = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
     /**
      * Get idMovie
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdMovie()
     {
@@ -171,7 +163,7 @@ class Movie
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -194,7 +186,7 @@ class Movie
     /**
      * Get originalTitle
      *
-     * @return string 
+     * @return string
      */
     public function getOriginalTitle()
     {
@@ -217,7 +209,7 @@ class Movie
     /**
      * Get year
      *
-     * @return integer 
+     * @return integer
      */
     public function getYear()
     {
@@ -240,7 +232,7 @@ class Movie
     /**
      * Get releaseDate
      *
-     * @return string 
+     * @return string
      */
     public function getReleaseDate()
     {
@@ -263,7 +255,7 @@ class Movie
     /**
      * Get duration
      *
-     * @return integer 
+     * @return integer
      */
     public function getDuration()
     {
@@ -286,7 +278,7 @@ class Movie
     /**
      * Get imdbRating
      *
-     * @return string 
+     * @return string
      */
     public function getImdbRating()
     {
@@ -309,7 +301,7 @@ class Movie
     /**
      * Get imdbPoster
      *
-     * @return string 
+     * @return string
      */
     public function getImdbPoster()
     {
@@ -332,7 +324,7 @@ class Movie
     /**
      * Get imdb
      *
-     * @return \AppBundle\Entity\Imdb 
+     * @return \AppBundle\Entity\Imdb
      */
     public function getImdb()
     {
@@ -365,9 +357,9 @@ class Movie
     /**
      * Get idActor
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getIdActor()
+    public function getActors()
     {
         return $this->idActor;
     }
@@ -398,9 +390,9 @@ class Movie
     /**
      * Get idDirector
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getIdDirector()
+    public function getDirectors()
     {
         return $this->idDirector;
     }
@@ -431,43 +423,10 @@ class Movie
     /**
      * Get idGenre
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getIdGenre()
+    public function getGenres()
     {
         return $this->idGenre;
-    }
-
-    /**
-     * Add idProfile
-     *
-     * @param \AppBundle\Entity\Profile $idProfile
-     * @return Movie
-     */
-    public function addIdProfile(\AppBundle\Entity\Profile $idProfile)
-    {
-        $this->idProfile[] = $idProfile;
-
-        return $this;
-    }
-
-    /**
-     * Remove idProfile
-     *
-     * @param \AppBundle\Entity\Profile $idProfile
-     */
-    public function removeIdProfile(\AppBundle\Entity\Profile $idProfile)
-    {
-        $this->idProfile->removeElement($idProfile);
-    }
-
-    /**
-     * Get idProfile
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdProfile()
-    {
-        return $this->idProfile;
     }
 }

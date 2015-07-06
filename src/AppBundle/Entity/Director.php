@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="director")
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="DirectorRepository");
  */
 class Director
 {

@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="profile")
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="ProfileRepository");
  */
 class Profile
 {
@@ -57,28 +56,6 @@ class Profile
      */
     private $lastConnection;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Movie", inversedBy="idProfile")
-     * @ORM\JoinTable(name="preference",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="id_profile", referencedColumnName="id_profile")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="id_movie", referencedColumnName="id_movie")
-     *   }
-     * )
-     */
-    private $idMovie;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idMovie = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
 
     /**
@@ -204,38 +181,5 @@ class Profile
     public function getLastConnection()
     {
         return $this->lastConnection;
-    }
-
-    /**
-     * Add idMovie
-     *
-     * @param \AppBundle\Entity\Movie $idMovie
-     * @return Profile
-     */
-    public function addIdMovie(\AppBundle\Entity\Movie $idMovie)
-    {
-        $this->idMovie[] = $idMovie;
-
-        return $this;
-    }
-
-    /**
-     * Remove idMovie
-     *
-     * @param \AppBundle\Entity\Movie $idMovie
-     */
-    public function removeIdMovie(\AppBundle\Entity\Movie $idMovie)
-    {
-        $this->idMovie->removeElement($idMovie);
-    }
-
-    /**
-     * Get idMovie
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdMovie()
-    {
-        return $this->idMovie;
     }
 }

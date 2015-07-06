@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="actor")
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="ActorRepository");
  */
 class Actor
 {

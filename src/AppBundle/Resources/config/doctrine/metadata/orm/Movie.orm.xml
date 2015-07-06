@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Movie" table="movie">
+    <indexes>
+      <index name="fk_movies_imdb1_idx" columns="imdb_id"/>
+    </indexes>
+    <id name="idMovie" type="integer" column="id_movie">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="title" type="string" column="title" length="200" nullable="false"/>
+    <field name="originalTitle" type="string" column="original_title" length="200" nullable="true"/>
+    <field name="year" type="smallint" column="year" nullable="false"/>
+    <field name="releaseDate" type="string" column="release_date" length="45" nullable="true"/>
+    <field name="duration" type="smallint" column="duration" nullable="false"/>
+    <field name="imdbRating" type="decimal" column="imdb_rating" precision="10" scale="2" nullable="false"/>
+    <field name="imdbPoster" type="string" column="imdb_poster" length="250" nullable="true"/>
+    <many-to-one field="imdb" target-entity="Imdb">
+      <join-columns>
+        <join-column name="imdb_id" referenced-column-name="id_imdb"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-many field="idGenre" target-entity="Genre" inversed-by="idMovie">
+      <join-table name="movie_genre">
+        <join-columns>
+          <join-column name="id_movie" referenced-column-name="id_movie"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="id_genre" referenced-column-name="id_genre"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+    <many-to-many field="idActor" target-entity="Actor" inversed-by="idMovie">
+      <join-table name="movie_actor">
+        <join-columns>
+          <join-column name="id_movie" referenced-column-name="id_movie"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="id_actor" referenced-column-name="id_actor"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+    <many-to-many field="idDirector" target-entity="Director" inversed-by="idMovie">
+      <join-table name="movie_director">
+        <join-columns>
+          <join-column name="id_movie" referenced-column-name="id_movie"/>
+        </join-columns>
+        <inverse-join-columns>
+          <join-column name="id_director" referenced-column-name="id_director"/>
+        </inverse-join-columns>
+      </join-table>
+    </many-to-many>
+  </entity>
+</doctrine-mapping>
