@@ -2,10 +2,12 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var SearchConstants = require('../constants/SearchConstants');
 
 var SearchActions = {
-  search: function(value) {
+  search: function(query, page, count) {
     AppDispatcher.dispatch({
       actionType: SearchConstants.SEARCH_CLICK,
-      value: value
+      query: query || '',
+      page: page || 1,
+      count: count || 5
     });
   }
 };

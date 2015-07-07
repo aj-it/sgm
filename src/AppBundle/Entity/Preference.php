@@ -67,7 +67,7 @@ class Preference
     /**
      * Get idPreference
      *
-     * @return integer 
+     * @return integer
      */
     public function getIdPreference()
     {
@@ -90,7 +90,7 @@ class Preference
     /**
      * Get liked
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getLiked()
     {
@@ -113,7 +113,7 @@ class Preference
     /**
      * Get createdAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -136,7 +136,7 @@ class Preference
     /**
      * Get updatedAt
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdatedAt()
     {
@@ -159,7 +159,7 @@ class Preference
     /**
      * Get idMovie
      *
-     * @return \AppBundle\Entity\Movie 
+     * @return \AppBundle\Entity\Movie
      */
     public function getIdMovie()
     {
@@ -182,9 +182,9 @@ class Preference
     /**
      * Get idProfile
      *
-     * @return \AppBundle\Entity\Profile 
+     * @return \AppBundle\Entity\Profile
      */
-    public function getIdProfile()
+    public function getProfiles()
     {
         return $this->idProfile;
     }

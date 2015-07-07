@@ -2,18 +2,20 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var MovieConstants = require('../constants/MovieConstants');
 
 var MovieActions = {
-  like: function(idMovie, idProfile) {
+  like: function(idMovie, idProfile, searchObj) {
     AppDispatcher.dispatch({
       actionType: MovieConstants.MOVIE_LIKE,
       idMovie: idMovie,
-      idProfile: idProfile
+      idProfile: idProfile,
+      searchObj: searchObj
     });
   },
-  dislike: function(idMovie, idProfile) {
+  dislike: function(idMovie, idProfile, searchObj) {
     AppDispatcher.dispatch({
       actionType: MovieConstants.MOVIE_DISLIKE,
       idMovie: idMovie,
-      idProfile: idProfile
+      idProfile: idProfile,
+      searchObj: searchObj
     });
   }
 };

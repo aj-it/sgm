@@ -36,15 +36,14 @@ var SearchBar = React.createClass({
       </ul>
     );
   },
-  _search: function(value) {
-    if (value.trim()) {
-      SearchActions.search(value);
+  _search: function(query) {
+    if (query.trim()) {
+      SearchActions.search(query, 1, 50);
     }
-    console.log('event depuis search bar', value)
   },
   _onClick: function() {
-    var value = this.refs.searchField.getDOMNode().value;
-    this._search(value);
+    var query = this.refs.searchField.getDOMNode().value;
+    this._search(query);
   },
   _onKeyDown: function(event) {
     var value = this.refs.searchField.getDOMNode().value;
@@ -53,7 +52,7 @@ var SearchBar = React.createClass({
     }
   },
   _onChange: function() {
-    console.log('change search');
+    
   }
 });
 

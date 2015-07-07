@@ -8,25 +8,36 @@ var $ = require('jquery');
 
 var CHANGE_EVENT  ='change';
 
-function search(value) {
-  $.ajax({
-    type: "GET",
-    url: '/api/movie/search',
-    dataType: 'json',
-    data: {value: value},
-    success: function (data, textStatus, jqXHR) {
-      MovieStore.emitChange(data);
-    },
-    error: function (data, textStatus, jqXHR) {
-      console.log(data, textStatus, jqXHR)
-    },
-  });
-}
-
 
 var SearchStore = assign({}, EventEmitter.prototype, {
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
+
+  search : function(query, page, count) {
+    $.ajax({
+      type: "GET",
+      url: '/api/movie/search',
+      dataType: 'json',
+      data: {
+        query: query,
+        page: page,
+        count: count
+      },
+      success: function (data, textStatus, jqXHR) {
+        MovieStore.emitChange(data.result);
+        this.emitChange({
+          query: query,
+          total: data.total,
+          page: parseInt(data.page),
+          count: parseInt(data.count)
+        });
+      }.bind(this),
+      error: function (data, textStatus, jqXHR) {
+        console.log(data, textStatus, jqXHR)
+      },
+    });
+  },
+
+  emitChange: function(searchObj) {
+    this.emit(CHANGE_EVENT, searchObj);
   },
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
@@ -36,14 +47,16 @@ var SearchStore = assign({}, EventEmitter.prototype, {
   }
 });
 
+SearchStore.setMaxListeners(0);
+
 AppDispatcher.register(function(action) {
-  var value;
-console.log(action.actionType);
+  var query;
+
   switch(action.actionType) {
     case SearchConstants.SEARCH_CLICK:
-      value = action.value.trim();
-      if (value !== '') {
-        search(value);
+      query = action.query;
+      if (query !== '') {
+        SearchStore.search(query, action.page, action.count);
       }
       break;
 

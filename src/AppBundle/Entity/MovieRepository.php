@@ -27,7 +27,7 @@ class MovieRepository extends EntityRepository
           ->andWhere('m.year <= :year')
           ->andWhere('m.duration > :duration')
           //->andWhere('m.imdbRating > :imdbRating')
-          //->andWhere($qbMovie->expr()->notIn('m.idMovie', $qbPref->getDQL()))
+          ->andWhere($qbMovie->expr()->notIn('m.idMovie', $qbPref->getDQL()))
           ->orderBy('m.year', 'DESC')
           ->setParameter('imdbPoster', '')
           ->setParameter('year', 2014)

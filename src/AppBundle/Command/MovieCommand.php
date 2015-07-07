@@ -74,7 +74,10 @@ class MovieCommand extends ContainerAwareCommand
               'imdbRating' => $movie->getImdbRating(),
               'actors' => $dataActors,
               'directors' => $dataDirectors,
-              'genres' => $dataGenres
+              'genres' => $dataGenres,
+              'preferences' => array(
+                
+              )
             )
           );
 

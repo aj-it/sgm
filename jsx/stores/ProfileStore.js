@@ -9,7 +9,6 @@ var Cookie = require('js-cookie');
 var CHANGE_EVENT  ='change';
 
 function create(text) {
-  console.log('store', text);
   $.ajax({
     type: "POST",
     url: '/api/profile/save',
@@ -30,15 +29,12 @@ function create(text) {
 
 var ProfileStore = assign({}, EventEmitter.prototype, {
   emitChange: function() {
-    console.log("emitChange")
     this.emit(CHANGE_EVENT);
   },
   addChangeListener: function(callback) {
-    console.log("addChangeListener")
     this.on(CHANGE_EVENT, callback);
   },
   removeChangeListener: function(callback) {
-    console.log("removeChangeListener")
     this.removeListener(CHANGE_EVENT, callback);
   }
 });

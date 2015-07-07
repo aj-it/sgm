@@ -33,18 +33,23 @@ class MovieController extends Controller {
      */
     public function searchAction()
     {
-      $value = $this->get('request')->get('value');
+      $query = $this->get('request')->get('query');
+      $page = $this->get('request')->get('page');
+      $count = $this->get('request')->get('count');
+
+      $from = ($count * $page) - $count;
+
       $client = new Client();
 
       $params['index'] = 'sgm';
       $params['type']  = 'movie';
-      //$params['body']['query']['match']['actors.name'] = $value;
-
+      $params['size'] = $count;
+      $params['from'] = $from;
 
       $params['body'] = array(
         'query' => array(
           'multi_match' => array(
-            'query' => $value,
+            'query' => $query,
             'fields' => ['title', 'actors.name', 'directors.name', 'genres.name'],
             'operator' => 'or'
           )
@@ -52,14 +57,20 @@ class MovieController extends Controller {
       );
 
       $results = $client->search($params);
+      $total = $results['hits']['total'];
 
-      $data = array();
+      $data = array(
+        'result' => array(),
+        'page' => $page,
+        'total' => $total,
+        'count' => $count
+      );
       foreach ($results['hits']['hits'] as $doc) {
         $row = array();
-        $row['idMovie'] = $doc['_id'];
+        $row['id'] = $doc['_id'];
         $row['title'] = $doc['_source']['title'];
         $row['poster'] = $doc['_source']['poster'];
-        $data[] = $row;
+        $data['result'][] = $row;
       }
 
       return new JsonResponse($data);

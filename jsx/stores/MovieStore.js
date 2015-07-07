@@ -3,6 +3,7 @@ var EventEmitter = require('events').EventEmitter;
 var $ = require('jquery');
 var assign = require('object-assign');
 var MovieConstants = require('../constants/MovieConstants');
+var SearchActions = require('../actions/SearchActions');
 var CHANGE_EVENT = 'change';
 
 var _movies = {};
@@ -10,7 +11,7 @@ var _movies = {};
 /**
  * Add a movie to profile preference
  */
-function like(idMovie, idProfile) {
+function like(idMovie, idProfile, searchObj) {
   $.ajax({
     type: "POST",
     url: '/api/preference/like',
@@ -20,7 +21,25 @@ function like(idMovie, idProfile) {
       idProfile: idProfile
     },
     success: function (data, textStatus, jqXHR) {
-      MovieStore.list();
+      SearchActions.search(searchObj.query, searchObj.currentPage, searchObj.count)
+    }.bind(this),
+    error: function (data, textStatus, jqXHR) {
+      console.log(data, textStatus, jqXHR)
+    },
+  });
+}
+
+function dislike(idMovie, idProfile, searchObj) {
+  $.ajax({
+    type: "POST",
+    url: '/api/preference/dislike',
+    dataType: 'json',
+    data: {
+      idMovie: idMovie,
+      idProfile: idProfile
+    },
+    success: function (data, textStatus, jqXHR) {
+      SearchActions.search(searchObj.query, searchObj.currentPage, searchObj.count)
     }.bind(this),
     error: function (data, textStatus, jqXHR) {
       console.log(data, textStatus, jqXHR)
@@ -57,7 +76,10 @@ var MovieStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
   switch (action.actionType) {
     case MovieConstants.MOVIE_LIKE:
-      like(action.idMovie, action.idProfile);
+      like(action.idMovie, action.idProfile, action.searchObj);
+      break;
+    case MovieConstants.MOVIE_DISLIKE:
+      dislike(action.idMovie, action.idProfile, action.searchObj);
       break;
     default:
       // no op

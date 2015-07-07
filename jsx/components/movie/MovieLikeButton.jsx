@@ -1,20 +1,27 @@
 var React = require('react');
 var MovieActions = require('../../actions/MovieActions');
+var SearchStore = require('../../stores/SearchStore');
 var Cookie = require('js-cookie');
 
 var MovieLikeButton = React.createClass({
   getInitialState: function() {
     return {
-      text: 'I liked!'
+      text: 'I liked!',
+      searchObj: {
+        query: '',
+        total: 0,
+        count: 0,
+        currentPage: 1
+      }
     };
   },
 
   componentDidMount: function() {
-    //ProfileStore.addChangeListener(this._onChange);
+    SearchStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    //ProfileStore.removeChangeListener(this._onChange);
+    SearchStore.removeChangeListener(this._onChange);
   },
 
   render: function() {
@@ -24,7 +31,17 @@ var MovieLikeButton = React.createClass({
   },
   _onClick: function() {
     var sgmCookie = Cookie.get('sgm');
-    MovieActions.like(this.props.idMovie, sgmCookie);
+    MovieActions.like(this.props.idMovie, sgmCookie, this.state.searchObj);
+  },
+  _onChange: function(searchObj) {
+    this.setState({
+      searchObj: {
+        query: searchObj.query,
+        total: searchObj.total,
+        count: searchObj.count,
+        currentPage: searchObj.page
+      }
+    });
   }
 });
 
